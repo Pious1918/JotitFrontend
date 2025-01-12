@@ -1,9 +1,6 @@
-<!-- stories.component.html -->
-<div class="min-h-screen bg-white py-8">
+<div class="min-h-screen bg-gray-100 py-8">
   
   <div class="container mx-auto px-4 max-w-5xl">
-
-
     <div class="mb-12 text-center md:text-left">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
         Your Stories
@@ -13,9 +10,8 @@
       </p>
     </div>
 
-
     <!-- Stories Stats -->
-    <div class="flex gap-6 mb-8 border-b border-black/10 pb-4">
+    <div class="flex gap-6 mb-8 border-b border-gray-200 pb-4">
       <button [class]="activeTab === 'published' ? 'text-gray-900 font-medium' : 'text-gray-500 hover:text-gray-700'"
         (click)="setActiveTab('published')" class="relative pb-4">
         Published ({{publishedStories.length}})
@@ -30,20 +26,15 @@
 
     <!-- Stories List -->
     <div class="space-y-0">
-      <div *ngFor="let story of displayedStories" class="py-6 border-b border-black/10 last:border-b-0">
+      <div *ngFor="let story of displayedStories" class="py-6 border-b border-gray-200 last:border-b-0">
         <article class="group">
           <!-- Article Header -->
           <div class="mb-2">
-            <!-- Wrap heading and excerpt in anchor tag -->
             <a [routerLink]="['/article', story._id]" class="block">
-              <!-- Render heading with styles -->
               <div class="text-xl font-bold mb-2 group-hover:text-gray-600" [innerHTML]="story.heading"></div>
-          
-              <!-- Render excerpt -->
               <p class="text-gray-600 line-clamp-2 mb-4">{{story.excerpt}}</p>
             </a>
           </div>
-          
 
           <!-- Render extracted image if available -->
           <div *ngIf="story.imageSrc" class="mb-4">
