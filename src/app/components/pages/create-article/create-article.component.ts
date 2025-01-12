@@ -20,7 +20,9 @@ import Swal from 'sweetalert2';
 export class CreateArticleComponent implements OnInit, OnDestroy {
 
   constructor(private _s3service: S3Service , private _articleService:ArticleService , private _router:Router) {
-    this.socket = io('http://localhost:8000')
+    this.socket = io('wss://jotitbackend-1.onrender.com', {
+      transports: ['websocket', 'polling'], // Ensure compatibility with WebSocket fallback
+    });
   }
 
 
