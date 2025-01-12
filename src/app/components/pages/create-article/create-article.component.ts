@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { S3Service } from '../../../services/s3.service';
 import tinymce from 'tinymce';
 import { ArticleService } from '../../../services/article.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-create-article',
@@ -16,7 +19,7 @@ import { ArticleService } from '../../../services/article.service';
 })
 export class CreateArticleComponent implements OnInit, OnDestroy {
 
-  constructor(private _s3service: S3Service , private _articleService:ArticleService) {
+  constructor(private _s3service: S3Service , private _articleService:ArticleService , private _router:Router) {
     this.socket = io('http://localhost:8000')
   }
 
@@ -25,7 +28,7 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
   visibility: visibility = visibility.PRIVATE
   socket: Socket
   saveTimeout: any;
-  selectedFile: File | null = null;  // to store the actual file for uploading
+  selectedFile: File | null = null;  
   preURLSigned!:string
 
   userId:string=''
@@ -36,7 +39,7 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
     external_plugins: {
       fullscreen: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/plugins/fullscreen/plugin.min.js',
     },
-    height: '96vh', // Set the height of the editor dynamically
+    height: '96vh', 
     file_picker_callback: (callback, value, meta) => {
       if (meta['filetype'] === 'image') {
         const input = document.createElement('input');
@@ -49,34 +52,34 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
             const fileName = `${Date.now()}_${file.name}`;
             const fileType = file.type;
     
-            // Instead of previewing as base64, just call the presigned URL service
+            
             this._s3service.generatePresignedurl(fileName, fileType).subscribe((res: any) => {
               this.preURLSigned = res.presignedURL;
     
-              // Upload the file to S3
+             
               this._s3service.uploadFileToS33(res.presignedURL, file).subscribe((uploadRes: any) => {
-                // Get the S3 URL after the file is uploaded
+              
                 const s3fileURL = this.preURLSigned.split('?')[0];
     
-                // Now, handle the image preview after successful upload
+                
                 const editor = tinymce?.activeEditor;
                 if (!editor) {
                   console.error('TinyMCE editor is not active or initialized');
                   return;
                 }
     
-                const tempImageId = `image-${Date.now()}`; // Temporary ID for the image
+                const tempImageId = `image-${Date.now()}`; 
                 const tempImage = new Image();
-                tempImage.src = s3fileURL; // Set the final S3 URL as the image source
+                tempImage.src = s3fileURL; 
     
-                // Wait for the image to load before updating the editor
+                
                 tempImage.onload = () => {
                   const imgElement = editor.getDoc().createElement('img');
-                  imgElement.src = s3fileURL; // Set the image src to the S3 URL
+                  imgElement.src = s3fileURL; 
                   imgElement.alt = file.name;
-                  imgElement.id = tempImageId; // Assign the temporary image ID
+                  imgElement.id = tempImageId; 
     
-                  // Insert the image into the editor
+                 
                   editor.selection.setContent(`<img src="${s3fileURL}" alt="${file.name}" id="${tempImageId}" />`);
                 };
               });
@@ -110,7 +113,7 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
         this.onEditorContentChange();
       })
 
-      // Listen for change events (any content modification)
+     
       editor.on('change', () => {
         this.editorContent = editor.getContent();
         this.onEditorContentChange();
@@ -139,7 +142,6 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
     this._articleService.getCurrentUserProfile().subscribe((res:any)=>{
       console.log("current user details are",res)
       this.userId = res.data._id
-
       console.log("userdidd",this.userId)
     })
   }
@@ -183,12 +185,30 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
 
 
   publishArticle() {
-    this.visibility = visibility.PUBLIC
-    this.saveDraft()
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to publish this article?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, publish it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.visibility = visibility.PUBLIC;
+        this.saveDraft(); 
+        this._router.navigate(['/stories']);
+        
+        Swal.fire('Published!', 'Your article has been published.', 'success');
+      } else {
+        Swal.fire('Cancelled', 'Your article was not published.', 'error');
+      }
+    });
   }
+  
+
+
   hasContent(): boolean {
     if (!this.editorContent) return false;
-    // Remove HTML tags and check if there's actual content
     const textContent = this.editorContent.replace(/<[^>]*>/g, '').trim();
     const hasImages = this.extractImageurl(this.editorContent).length > 0;
     return textContent.length > 0 || hasImages;
@@ -200,8 +220,8 @@ export class CreateArticleComponent implements OnInit, OnDestroy {
       this.socket.disconnect()
       console.log("socket disconnected")
     }
-    this.editorContent = ''; // Clear editor content
-    this.visibility = visibility.PRIVATE; // Reset visibility
+    this.editorContent = ''; 
+    this.visibility = visibility.PRIVATE; 
   }
 
 

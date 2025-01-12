@@ -57,15 +57,15 @@ export class DashboardComponent implements OnInit{
       if (res.success && res.data) {
         this.articles = res.data.map((story: any) => ({
           ...story,
-          heading: this.stripHtml(story.content), // Extract heading with styles
-          imageSrc: this.extractImageSrc(story.content), // Extract image src
+          heading: this.stripHtml(story.content), 
+          imageSrc: this.extractImageSrc(story.content), 
 
-          excerpt: this.stripHtml(story.content).replace(/<[^>]+>/g, '').slice(0, 100), // Extract plain text for excerpt
-          date: story.createdAt ? new Date(story.createdAt) : null, // Convert to Date object if present
+          excerpt: this.stripHtml(story.content).replace(/<[^>]+>/g, '').slice(0, 100), 
+          date: story.createdAt ? new Date(story.createdAt) : null, 
           status: "Published"
         }));
 
-        // Set displayed stories to published stories by default
+        
         this.articles = this.articles;
       } else {
         console.error('Failed to fetch stories:', res.message);
@@ -79,15 +79,15 @@ export class DashboardComponent implements OnInit{
     const div = document.createElement('div');
     div.innerHTML = html;
   
-    // Extract heading tags with styles
+    
     const headings = div.querySelectorAll('h1, h2, h3, h4, h5, h6');
     let extractedHtml = '';
   
     headings.forEach((heading) => {
-      extractedHtml += heading.outerHTML; // Include the HTML of heading tags
+      extractedHtml += heading.outerHTML; 
     });
   
-    return extractedHtml || div.innerText || ''; // Fallback to plain text if no headings found
+    return extractedHtml || div.innerText || ''; 
   }
   
 
@@ -95,16 +95,13 @@ export class DashboardComponent implements OnInit{
     const div = document.createElement('div');
     div.innerHTML = html;
   
-    const img = div.querySelector('img'); // Find the first image tag
-    return img ? img.src : null; // Return the src attribute or null if no image
+    const img = div.querySelector('img'); 
+    return img ? img.src : null; 
   }
 
-  // Pagination methods
+  
   onPageChange(page: number) {
     this.currentPage = page;
-    // Implement your pagination logic here
-    // This would typically involve calling your backend API
-    // with the new page number
   }
 
   changePage(page: number): void {

@@ -17,9 +17,9 @@ import Swal from 'sweetalert2';
 })
 export class EditstoryComponent implements OnInit {
   storyId: string | null = null;
-  storyContent: string = ''; // Content to load into TinyMCE editor
+  storyContent: string = '';
   visibility: string = ''
-  init: any; // Configuration for TinyMCE
+  init: any; 
   preURLSigned!:string
 
   constructor(
@@ -59,34 +59,34 @@ export class EditstoryComponent implements OnInit {
               const fileName = `${Date.now()}_${file.name}`;
               const fileType = file.type;
       
-              // Instead of previewing as base64, just call the presigned URL service
+             
               this._s3service.generatePresignedurl(fileName, fileType).subscribe((res: any) => {
                 this.preURLSigned = res.presignedURL;
       
-                // Upload the file to S3
+              
                 this._s3service.uploadFileToS33(res.presignedURL, file).subscribe((uploadRes: any) => {
-                  // Get the S3 URL after the file is uploaded
+                 
                   const s3fileURL = this.preURLSigned.split('?')[0];
       
-                  // Now, handle the image preview after successful upload
+                 
                   const editor = tinymce?.activeEditor;
                   if (!editor) {
                     console.error('TinyMCE editor is not active or initialized');
                     return;
                   }
       
-                  const tempImageId = `image-${Date.now()}`; // Temporary ID for the image
+                  const tempImageId = `image-${Date.now()}`; 
                   const tempImage = new Image();
-                  tempImage.src = s3fileURL; // Set the final S3 URL as the image source
+                  tempImage.src = s3fileURL; 
       
-                  // Wait for the image to load before updating the editor
+                 
                   tempImage.onload = () => {
                     const imgElement = editor.getDoc().createElement('img');
-                    imgElement.src = s3fileURL; // Set the image src to the S3 URL
+                    imgElement.src = s3fileURL; 
                     imgElement.alt = file.name;
-                    imgElement.id = tempImageId; // Assign the temporary image ID
+                    imgElement.id = tempImageId;
       
-                    // Insert the image into the editor
+                    
                     editor.selection.setContent(`<img src="${s3fileURL}" alt="${file.name}" id="${tempImageId}" />`);
                   };
                 });
@@ -106,8 +106,8 @@ export class EditstoryComponent implements OnInit {
     this._articleService.getStoryById(id).subscribe((res: any) => {
       if (res.success && res.data) {
         console.log("res from edit", res)
-        this.storyContent = res.data.content; // Assuming content is in `data.content`
-        this.visibility = res.data.visibility; // Assuming content is in `data.content`
+        this.storyContent = res.data.content; 
+        this.visibility = res.data.visibility; 
       }
     })
   }
@@ -124,7 +124,7 @@ export class EditstoryComponent implements OnInit {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Proceed with saving the story
+       
         if (this.storyId) {
           this._articleService.updateStory(this.storyId, this.storyContent).subscribe(
             (res: any) => {
@@ -140,29 +140,12 @@ export class EditstoryComponent implements OnInit {
           );
         }
       } else {
-        // User canceled the action
+        
         Swal.fire('Canceled', 'Your story has not been saved.', 'info');
       }
     });
   }
 
-  // saveAndPublishDraft() {
-  //   if (this.storyId) {
-  //     console.log("sfdsf", this.storyContent)
-  //     this._articleService.saveDraft(this.storyId, this.storyContent).subscribe(
-  //       (res: any) => {
-  //         if (res.success) {
-  //           console.log('Story updated successfully');
-  //           this._router.navigate(['/stories']);
-
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Failed to update story:', error);
-  //       }
-  //     );
-  //   }
-  // }
 
   saveAndPublishDraft() {
     Swal.fire({
@@ -176,7 +159,7 @@ export class EditstoryComponent implements OnInit {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Proceed with saving the draft
+        
         if (this.storyId) {
           this._articleService.saveDraft(this.storyId, this.storyContent).subscribe(
             (res: any) => {
@@ -192,7 +175,7 @@ export class EditstoryComponent implements OnInit {
           );
         }
       } else {
-        // User canceled
+     
         Swal.fire('Canceled', 'Your draft remains private.', 'info');
       }
     });

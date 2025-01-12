@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
-    // Close mobile menu if open
     if (this.isMenuOpen && this.isSidebarOpen) {
       this.isMenuOpen = false;
     }

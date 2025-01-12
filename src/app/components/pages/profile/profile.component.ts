@@ -21,9 +21,7 @@ interface ProfileData {
 export class ProfileComponent implements OnInit{
   @ViewChild('profilePicInput') profilePicInput!: ElementRef;
 
-
   constructor(private _articlService:ArticleService , private _s3service:S3Service){}
-
 
   profileData: any = {};
 
@@ -57,44 +55,35 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  // saveProfilePic(): void {
-  //   if (this.imagePreview) {
-  //     this.profileData.profileImage = this.imagePreview;
-  //     this.imagePreview = null;
-  //     this.selectedFile = null;
-  //     // Here you would typically make an API call to save the image
-  //     console.log('Profile picture saved');
-  //   }
-  // }
 
 
   saveProfilePic(): void {
     if (this.selectedFile) {
-      const fileName = `${Date.now()}_${this.selectedFile.name}`; // Generate a unique file name using the timestamp
-      const fileType = this.selectedFile.type; // Get the file type (e.g., image/jpeg)
+      const fileName = `${Date.now()}_${this.selectedFile.name}`; 
+      const fileType = this.selectedFile.type; 
   
-      // Step 1: Generate the presigned URL
+   
       this._s3service.generatePresignedurl(fileName, fileType).subscribe(
         (res: any) => {
           const presignedUrl = res.presignedURL;
   
           console.log("Generated presigned URL:", presignedUrl);
   
-          // Step 2: Upload the file to S3 using the presigned URL
+         
           this._s3service.uploadFileToS33(presignedUrl, this.selectedFile!).subscribe(
             () => {
               console.log('File successfully uploaded to S3');
   
-              // Step 3: Get the S3 file URL (strip query parameters from the presigned URL)
-              const s3Url = presignedUrl.split('?')[0]; // Remove query parameters to get the S3 file URL
+              
+              const s3Url = presignedUrl.split('?')[0]; 
               this.profileData.profileImage = s3Url;
   
-              // Step 4: Save the S3 URL to the database (you can implement an API service to save it)
+              
               this._articlService.saveProfileImageToDB(s3Url).subscribe(
                 (response: any) => {
                   console.log('Profile picture saved to database', response);
-                  this.imagePreview = null; // Clear image preview
-                  this.selectedFile = null; // Clear the selected file
+                  this.imagePreview = null; 
+                  this.selectedFile = null; 
                 },
                 (error: any) => {
                   console.error('Error saving profile picture to database', error);
@@ -136,7 +125,6 @@ export class ProfileComponent implements OnInit{
     this._articlService.updateUsername(this.profileData.name).subscribe((res:any)=>{
       console.log("success")
       this.isEditingName = false;
-      // Here you would typically make an API call to save the name
       console.log('Name saved');
     })
     

@@ -34,8 +34,8 @@ export class LoginRegistrationComponent {
       password: ['', [
         Validators.required, 
         Validators.minLength(6),
-        Validators.pattern(/[A-Z]/),                // At least one uppercase letter
-        Validators.pattern(/[!@#$%^&*(),.?":{}|<>]/) // At least one special character
+        Validators.pattern(/[A-Z]/),                
+        Validators.pattern(/[!@#$%^&*(),.?":{}|<>]/) 
       ]]})
 
   }
@@ -64,7 +64,7 @@ export class LoginRegistrationComponent {
 
       },
         (error) => {
-          // Handle the error and set the error message
+          
           this.errorMessage = error.error.message || 'An error occurred. Please try again.';
         }
 
@@ -86,7 +86,7 @@ export class LoginRegistrationComponent {
 
       this._articleService.registerUser(registerData).subscribe((res: any) => {
         console.log("response", res)
-        this.errorMessage = ''; // Clear any previous error messages
+        this.errorMessage = ''; 
         this.isLogin = true;
 
 
@@ -97,7 +97,7 @@ export class LoginRegistrationComponent {
         }
       )
 
-    }// Mark all controls as touched to show validation errors
+    }
     this.registerForm.markAllAsTouched();
 
   }
