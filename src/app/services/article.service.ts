@@ -8,7 +8,7 @@ import { IloginData, IUser } from '../interfaces/user.interface';
 export class ArticleService {
 
 
-  private articleurl= 'http://localhost:8000'
+  private articleurl= 'https://jotitbackend-1.onrender.com'
   constructor(private _http:HttpClient) { }
 
   getArticlewithId(){

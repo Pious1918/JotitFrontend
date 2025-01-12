@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class S3Service {
 
-  private articleurl= 'http://localhost:8000'
+  private articleurl= 'https://jotitbackend-1.onrender.com'
   constructor(private _http:HttpClient) { }
 
   generatePresignedurl(fileName:string , fileType:string):Observable<{presignedUrl:string}>{
