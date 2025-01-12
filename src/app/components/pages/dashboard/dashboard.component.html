@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-[#ffffff]">
+<div class="min-h-screen bg-gray-100">
   <!-- Hero Section -->
-  <div *ngIf="currentPage===1" class="bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
+  <div *ngIf="currentPage===1" class="bg-gradient-to-b from-gray-200 to-gray-100 border-b border-gray-200">
     <div class="max-w-4xl mx-auto px-4 py-16 md:py-20">
       <div class="text-center mb-3">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -19,7 +19,7 @@
     <!-- Articles List -->
     <div class="divide-y divide-green-950-400-100">
       <div *ngFor="let article of articles"
-        class="group py-6 sm:py-8 first:pt-0 last:pb-0 transition-all duration-200 hover:bg-gray-50/50 border-b-2 border-green-500">
+        class="group py-6 sm:py-8 first:pt-0 last:pb-0 transition-all duration-200 hover:bg-gray-200/50 border-b-2 border-green-500">
         <!-- Clickable article wrapper -->
         <a [routerLink]="['/article', article._id]" class="group block">
           <div class="flex items-start space-x-4 sm:space-x-6 mb-4">
@@ -73,24 +73,23 @@
       </div>
     </div>
 
-
     <!-- Pagination -->
     <div class="mt-12 flex justify-center">
       <nav class="flex items-center space-x-2" aria-label="Pagination">
         <button (click)="changePage(currentPage - 1)"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50"
+          class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-200"
           [disabled]="currentPage === 1">
           Previous
         </button>
 
         <button *ngFor="let page of pages" class="px-3 py-2 rounded-md text-sm font-medium"
           [class.bg-gray-900]="page === currentPage" [class.text-white]="page === currentPage"
-          [class.text-gray-500]="page !== currentPage" [class.hover:bg-gray-50]="page !== currentPage">
+          [class.text-gray-500]="page !== currentPage" [class.hover:bg-gray-200]="page !== currentPage">
           {{page}}
         </button>
 
         <button (click)="changePage(currentPage + 1)"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50"
+          class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-200"
           [disabled]="currentPage === totalPages">
           Next
         </button>
