@@ -1,0 +1,15 @@
+/* Adjust the TinyMCE full-screen layout */
+body.tinymce-fullscreen {
+    overflow: hidden;
+  }
+  
+  body.tinymce-fullscreen .tox-fullscreen {
+    top: 60px; /* Adjust to the height of your header */
+    height: calc(100vh - 60px); /* Reduce height by the header's height */
+  }
+  
+  /* Ensure the editor integrates nicely in normal mode */
+  .tox {
+    margin-top: 10px; /* Optional: add spacing below the header */
+  }
+  

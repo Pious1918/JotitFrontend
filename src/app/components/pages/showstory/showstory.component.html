@@ -1,0 +1,58 @@
+<!-- Story Container -->
+<div *ngIf="article" class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Main Content Container -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Story Card -->
+    <article class="bg-white rounded-lg shadow-sm relative">
+      <!-- Decorative Lines -->
+      <div class="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200"></div>
+      <div class="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200"></div>
+      
+      <!-- Content Container -->
+      <div class="px-8 py-6 sm:px-12 sm:py-8">
+        <!-- Title -->
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+          {{ article.title }}
+        </h1>
+
+        <!-- Author Info Section -->
+        <div class="flex items-center space-x-4 mb-6 border-b border-gray-100 pb-6">
+          <div class="flex-shrink-0">
+            <img 
+              [src]="profilepic" 
+              [alt]=""
+              class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-gray-100"
+            >
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+                  {{ authorName }}
+                </h2>
+                <p *ngIf="article.visibility==='public' " class="text-sm text-green-600 font-medium">
+                  Published on: {{ article.createdAt | date:'MMM d, yyyy' }}
+                </p>
+                <p *ngIf="article.visibility==='private' " class="text-sm text-red-600 font-medium">
+                  Draft saved on: {{ article.createdAt | date:'MMM d, yyyy' }}
+                </p>
+              </div>
+              <!-- Optional: Add social links or follow button here -->
+              <!-- <div class="mt-2 sm:mt-0">
+                <button class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                  Follow
+                </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Article Content -->
+        <div 
+          [innerHTML]="article.content"
+          class="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-a:text-blue-600 hover:prose-a:text-blue-700">
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

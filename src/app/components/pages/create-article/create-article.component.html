@@ -1,0 +1,18 @@
+<div class="w-full px-4 py-3 bg-white shadow-sm">
+  <button
+    (click)="publishArticle()"
+    [disabled]="!hasContent()"
+    class="transition-all duration-200 px-6 py-2 rounded-full font-medium text-white bg-green-500 hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm hover:shadow-md w-full sm:w-auto flex items-center justify-center gap-2"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+    </svg>
+    <span>Publish Article</span>
+  </button>
+</div>
+
+<editor 
+  apiKey="x4xmsan1ppkpl7rw8fq1cmuot0dmyo901i3zulcdk7mcpx53"
+  [init]="init"
+  [(ngModel)]="editorContent"
+/>

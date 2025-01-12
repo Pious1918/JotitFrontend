@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Enforce table borders and cell styles globally */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid black;
+  }
+  
+  table td, table th {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  table td {
+    background-color: #f9f9f9; /* Optional default background */
+  }
+  
